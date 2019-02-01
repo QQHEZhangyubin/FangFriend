@@ -11,6 +11,7 @@ import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.github.chrisbanes.photoview.OnPhotoTapListener;
+import com.github.chrisbanes.photoview.PhotoView;
 import com.github.chrisbanes.photoview.PhotoViewAttacher;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.assist.FailReason;
@@ -18,7 +19,7 @@ import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListene
 
 public class ImageDetailFragment extends Fragment {
     private String mImageUrl;
-    private ImageView mImageView;
+    private PhotoView mImageView;
     private ProgressBar progressBar;
     private PhotoViewAttacher mAttacher;
     public static ImageDetailFragment newInstance(String imageUrl){
@@ -37,7 +38,7 @@ public class ImageDetailFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.image_detail_fragment, container, false);
-        mImageView = (ImageView) v.findViewById(R.id.image);
+        mImageView = (PhotoView) v.findViewById(R.id.image);
         mAttacher = new PhotoViewAttacher(mImageView);
         mAttacher.setOnPhotoTapListener(new OnPhotoTapListener() {
             @Override

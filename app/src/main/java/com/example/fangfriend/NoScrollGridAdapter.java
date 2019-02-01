@@ -49,6 +49,6 @@ public class NoScrollGridAdapter extends BaseAdapter {
                 .bitmapConfig(Bitmap.Config.RGB_565)//
                 .build();
         ImageLoader.getInstance().displayImage(imageUrls.get(position), imageView, options);
-        return convertView;
+        return view;
     }
 }
