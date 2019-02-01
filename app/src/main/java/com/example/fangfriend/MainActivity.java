@@ -2,21 +2,28 @@ package com.example.fangfriend;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.widget.ListView;
 
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
-    private ListView listView;
+    private RecyclerView listView;
     /** Item数据实体集合 */
     private ArrayList<ItemEntity> itemEntities;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        listView = (ListView) findViewById(R.id.listview);
+        listView = (RecyclerView) findViewById(R.id.listview);
         initData();
-        listView.setAdapter(new ListItemAdapter(this, itemEntities));
+        //listView.setAdapter(new ListItemAdapter(this, itemEntities));
+        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
+        layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+        listView.setLayoutManager(layoutManager);
+        listView.setAdapter(new RecyclerItemAdapter(MainActivity.this,itemEntities));
     }
 
     private void initData() {
