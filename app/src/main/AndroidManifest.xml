@@ -20,6 +20,8 @@
         </activity>
         <activity android:name=".ImagePagerActivity">
         </activity>
+        <activity android:name=".activity.comment.CommentActivity">
+        </activity>
     </application>
 
 </manifest>

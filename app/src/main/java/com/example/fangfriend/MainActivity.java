@@ -1,31 +1,43 @@
 package com.example.fangfriend;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.widget.ListView;
+import android.widget.Toast;
+
+import com.example.fangfriend.activity.comment.CommentActivity;
+import com.example.fangfriend.api.APIWrapper;
+import com.example.fangfriend.bean.ShuoShuo;
+import com.example.fangfriend.utils.TLog;
 
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
-public class MainActivity extends AppCompatActivity {
+import rx.Subscriber;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
+
+public class MainActivity extends AppCompatActivity implements RecyclerItemAdapter.K{
     private RecyclerView listView;
     /** Item数据实体集合 */
-    private ArrayList<ItemEntity> itemEntities;
+  //  private ArrayList<ItemEntity> itemEntities;
+    private ArrayList<ShuoShuo> shuoShuoList;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        shuoShuoList = new ArrayList<>();
+        shuoShuoList.clear();
         listView = (RecyclerView) findViewById(R.id.listview);
-        initData();
+        initData2();
         //listView.setAdapter(new ListItemAdapter(this, itemEntities));
-        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
-        layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
-        listView.setLayoutManager(layoutManager);
-        listView.setAdapter(new RecyclerItemAdapter(MainActivity.this,itemEntities));
     }
-
+/*
     private void initData() {
         itemEntities = new ArrayList<ItemEntity>();
         int i = 0;
@@ -65,5 +77,42 @@ public class MainActivity extends AppCompatActivity {
 
 
 
+    }
+*/
+    private void initData2(){
+        APIWrapper.getInstance().RequestData()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<ArrayList<ShuoShuo>>() {
+                    @Override
+                    public void onCompleted() {
+                        LinearLayoutManager layoutManager = new LinearLayoutManager(MainActivity.this);
+                        layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+                        listView.setLayoutManager(layoutManager);
+                        //TLog.log(shuoShuoList.size()+"");
+                        listView.setAdapter(new RecyclerItemAdapter(MainActivity.this,shuoShuoList));
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        TLog.error(e.toString());
+                    }
+
+                    @Override
+                    public void onNext(ArrayList<ShuoShuo> shuoShuos) {
+                        for (ShuoShuo s : shuoShuos){
+                            TLog.log("1111111"+s.getBrowser()+","+s.getUserName()+","+s.getPicture()+","+s.getEpicture().get(0)+","+s.getContent());
+                            shuoShuoList.add(s);
+                        }
+                    }
+                });
+
+    }
+
+    @Override
+    public void m(String i) {
+        Intent intent = new Intent(MainActivity.this,CommentActivity.class);
+        intent.putExtra("kk",i);
+        startActivity(intent);
     }
 }
