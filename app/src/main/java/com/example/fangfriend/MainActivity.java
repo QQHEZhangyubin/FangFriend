@@ -110,9 +110,14 @@ public class MainActivity extends AppCompatActivity implements RecyclerItemAdapt
     }
 
     @Override
-    public void m(String i) {
+    public void m(ShuoShuo shuo) {
         Intent intent = new Intent(MainActivity.this,CommentActivity.class);
-        intent.putExtra("kk",i);
+        intent.putExtra("brower",shuo.getBrowser());//说说id
+        intent.putExtra("content",shuo.getContent());//说说内容
+        intent.putExtra("picture",shuo.getPicture());//用户头像
+        intent.putExtra("time",shuo.getTime());//说说发布时间
+        intent.putExtra("username",shuo.getUserName());//学号
+        intent.putStringArrayListExtra("Epicture",shuo.getEpicture());//九宫格图片
         startActivity(intent);
     }
 }
