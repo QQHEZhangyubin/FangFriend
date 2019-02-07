@@ -39,4 +39,5 @@ dependencies {
     implementation 'com.android.support:design:27.1.0'
     implementation 'de.hdodenhof:circleimageview:2.1.0'
     implementation 'com.ToxicBakery.viewpager.transforms:view-pager-transforms:2.0.24'
+    implementation files('libs/King_2014-4-25_v1.0.jar')
 }
